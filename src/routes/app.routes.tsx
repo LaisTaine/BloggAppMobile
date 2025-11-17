@@ -1,6 +1,9 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
 
+import { Feather } from '@expo/vector-icons';
+import { TouchableOpacity } from 'react-native';
+
 import { CreatePost } from '../screens/CreatePost';
 import { EditPost } from '../screens/EditPost';
 import { Login } from '../screens/Login';
@@ -67,10 +70,19 @@ export function AppRoutes() {
             <Screen 
                 name="ListTeachers" 
                 component={ListTeachers}
-                options={{ 
+                options={({ navigation }) => ({ 
                     headerShown: true, 
-                    title: 'Gerenciar Professores'
-                }} 
+                    title: 'Gerenciar Professores',
+
+                    headerRight: () => (
+                        <TouchableOpacity 
+                            onPress={() => navigation.navigate('CreateTeacher')}
+                            style={{ marginRight: 10 }} 
+                        >
+                            <Feather name="plus-circle" size={24} color="#007bff" />
+                        </TouchableOpacity>
+                        ),
+                    })}
             /> 
             <Screen 
                 name="CreateTeacher" 
@@ -88,13 +100,21 @@ export function AppRoutes() {
                     title: 'Editar Professor'
                 }} 
             />
-            <Screen
-                name="ListStudents"
+            <Screen 
+                name="ListStudents" 
                 component={ListStudents}
-                options={{ 
+                options={({ navigation }) => ({ 
                     headerShown: true, 
-                    title: 'Gerenciar Estudantes'
-                }}  
+                    title: 'Gerenciar Estudantes',
+                    headerRight: () => (
+                    <TouchableOpacity 
+                        onPress={() => navigation.navigate('CreateStudent')}
+                        style={{ marginRight: 10 }}
+                    >
+                        <Feather name="plus-circle" size={24} color="#007bff" />
+                    </TouchableOpacity>
+                    ),
+                })}
             />
             <Screen
                 name="CreateStudent"

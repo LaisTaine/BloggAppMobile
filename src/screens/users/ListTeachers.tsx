@@ -25,6 +25,7 @@ type User = {
   name: string;
   email: string;
   userType: 'professor' | 'aluno';
+  isActive: boolean;
 };
 
 export function ListTeachers() {
@@ -39,6 +40,7 @@ export function ListTeachers() {
   const [loading, setLoading] = useState(true);
   const [users, setUsers] = useState<User[]>([]);
 
+  
   // FUNÇÃO PARA BUSCAR USUÁRIOS (GET com Token) 
   async function fetchUsers() {
     if (!token) {
@@ -49,14 +51,16 @@ export function ListTeachers() {
     
     try {
       setLoading(true);
-      // Endpoint da API para listar usuários
+
       const response = await axios.get(`${BASE_URL}/api/users`, {
         headers: { 'Authorization': `Bearer ${token}` } 
       });
       
-      // Filtro para mostrar apenas professores
+
       const allUsers = response.data.data || response.data;
-      const teachers = allUsers.filter((user: User) => user.userType === 'professor');
+      const teachers = allUsers.filter((user: User) => 
+        user.userType === 'professor' && user.isActive === true
+      );
       
       setUsers(teachers);
 
@@ -68,12 +72,13 @@ export function ListTeachers() {
     }
   }
 
-  //  useEffect para carregar ao focar 
+
   useEffect(() => {
     if (isFocused) {
       fetchUsers();
     }
-  }, [isFocused, token]); // Roda se a tela focar OU se o token mudar
+  }, [isFocused, token]); 
+
 
   // FUNÇÕES (PLACEHOLDER) 
   function handleEditTeacher(userId: string) {
@@ -101,20 +106,43 @@ export function ListTeachers() {
       return;
     }
 
+    // --- CHECKPOINT 1: Início da Função ---
+    console.log(`[DEBUG] Iniciando exclusão do usuário: ${userId}`);
+    // Vamos verificar se o token realmente existe aqui
+    console.log(`[DEBUG] O token existe? ${token ? 'SIM' : 'NÃO'}`);
+
     try {
-      // Endpoint para DELETAR usuário (requer token de Professor, segundo a doc)
-      await axios.delete(`${BASE_URL}/api/users/${userId}`, {
+      // Esta é a chamada da API
+      const response = await axios.delete(`${BASE_URL}/api/users/${userId}`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
 
+      // --- CHECKPOINT 2: Sucesso da API ---
+      console.log('[DEBUG] API retornou SUCESSO.', response.data);
       Alert.alert('Sucesso', 'Professor excluído.');
-      
-      // Força a lista a recarregar 
       fetchUsers(); 
 
     } catch (error: any) {
-      console.log('Erro ao excluir professor:', error.response?.data);
-      Alert.alert('Erro', 'Não foi possível excluir o professor.');
+      // --- CHECKPOINT 3: Falha da API (Bloco Catch) ---
+      console.log('=================================');
+      console.log('==== ERRO NA EXCLUSÃO (CATCH) ===');
+      
+      // Logar o objeto de erro inteiro. ALGO TEM QUE APARECER AQUI.
+      console.log('[DEBUG] Objeto de erro:', error);
+      
+      // Logar a resposta do erro, se existir
+      if (error.response) {
+        console.log('[DEBUG] Erro - Resposta da API:', error.response.data);
+        console.log('[DEBUG] Erro - Status da API:', error.response.status);
+      } else {
+        // Se error.response não existe, é um erro de rede ou código
+        console.log('[DEBUG] Não foi um erro de resposta da API (ex: erro de rede).');
+      }
+      console.log('=================================');
+      
+      // Tenta pegar a mensagem de erro mais específica
+      const errorMessage = error.response?.data?.message || error.message || 'Erro desconhecido ao excluir.';
+      Alert.alert('Erro na Exclusão', errorMessage);
     }
   }
 
@@ -129,6 +157,7 @@ export function ListTeachers() {
 
   return (
     <View style={styles.container}>
+      
       
 
       {/* Lista de Professores */}

@@ -23,7 +23,6 @@ export function Header({ title }: HeaderProps) {
 
   const user = useSelector((state: RootState) => state.auth.user);
 
-
   async function handleLogout() {
     Alert.alert(
       "Sair",

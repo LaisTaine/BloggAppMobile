@@ -27,6 +27,7 @@ type User = {
   name: string;
   email: string;
   userType: 'professor' | 'aluno';
+  isActive: boolean;
 };
 
 export function ListStudents() {
@@ -55,7 +56,9 @@ export function ListStudents() {
       
       const allUsers = response.data.data || response.data;
       
-      const students = allUsers.filter((user: User) => user.userType === 'aluno');
+      const students = allUsers.filter((user: User) => 
+        user.userType === 'aluno' && user.isActive === true
+      );
       
       setUsers(students); 
 
@@ -94,25 +97,30 @@ export function ListStudents() {
     }
 
     async function confirmDelete(userId: string) {
-      if (!token) {
-        Alert.alert('Erro', 'Você não está autenticado.');
-        return;
+        if (!token) {
+          Alert.alert('Erro', 'Você não está autenticado.');
+          return;
+        }
+
+        try {
+      
+          await axios.delete(`${BASE_URL}/api/users/${userId}`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+          });
+
+    
+          Alert.alert('Sucesso', 'Estudante excluído.');
+          
+       
+          fetchUsers(); 
+
+        } catch (error: any) {
+ 
+          const errorMessage = error.response?.data?.message || 'Não foi possível excluir o estudante.';
+          console.log('Erro ao excluir estudante:', error.response?.data);
+          Alert.alert('Erro na Exclusão', errorMessage);
+        }
       }
-
-      try {
-        // Endpoint para DELETAR usuário
-        await axios.delete(`${BASE_URL}/api/users/${userId}`, {
-          headers: { 'Authorization': `Bearer ${token}` }
-        });
-
-        Alert.alert('Sucesso', 'Estudante excluído.');
-        fetchUsers(); 
-
-      } catch (error: any) {
-        console.log('Erro ao excluir estudante:', error.response?.data);
-        Alert.alert('Erro', 'Não foi possível excluir o estudante.');
-      }
-    }
 
   // RENDERIZAÇÃO 
   if (loading) {

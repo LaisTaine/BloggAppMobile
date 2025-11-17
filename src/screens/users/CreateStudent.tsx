@@ -111,7 +111,7 @@ export function CreateStudent() {
         keyboardType="numeric"
       />
       
-      <Text style={styles.label}>Nome do Responsável (Guardian)</Text>
+      <Text style={styles.label}>Nome do Responsável </Text>
       <TextInput
         style={styles.input}
         placeholder="Nome do responsável"
