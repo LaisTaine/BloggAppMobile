@@ -28,8 +28,15 @@ O objetivo é construir uma interface gráfica mobile em React Native para a API
 1.  **Login:** O app inicia na tela de Login.
 2.  **Autorização:**
     * **Professores:** Podem ver todos os botões (Criar, Editar, Excluir, Gerenciar).
-         ***Login:*** 
-         ***Senha:***
+         
+         ***Login:*** testeprofessor@gmail.com
+         
+         ***Senha:*** Prof12345
+         
         
     * **Alunos:** Apenas visualizam os posts.
+         
+         ***Login:*** testealuno@gmail.com
+         
+         ***Senha:*** Aluno12345
 3.  **CRUDs:** O app implementa o CRUD completo para Posts, Professores e Estudantes.
