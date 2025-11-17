@@ -1,50 +1,35 @@
-# Welcome to your Expo app 👋
+# Tech Challenge - Fase 4: BlogApp Mobile
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Este é o projeto de front-end mobile para o Tech Challenge da Pós-Graduação em Full Stack Development.
 
-## Get started
+## 🚀 Objetivo
 
-1. Install dependencies
+O objetivo é construir uma interface gráfica mobile em React Native para a API do Blog Education, permitindo que professores e alunos interajam com a plataforma.
 
-   ```bash
-   npm install
-   ```
+## 🛠️ Arquitetura e Tecnologias
 
-2. Start the app
+* **React Native (com Expo)**
+* **TypeScript**
+* **React Navigation:** Para o gerenciamento de rotas e navegação.
+* **Redux Toolkit:** Para gerenciamento de estado global (autenticação).
+* **AsyncStorage:** Para persistir o token de autenticação.
+* **Axios:** Para realizar as chamadas à API REST.
+* **@expo/vector-icons:** Para a iconografia.
 
-   ```bash
-   npx expo start
-   ```
+## ⚙️ Setup Inicial (Como Rodar)
 
-In the output, you'll find options to open the app in a
+1.  Clone este repositório.
+2.  Instale as dependências: `npm install`
+3.  Inicie o servidor de desenvolvimento: `npx expo start`
+4.  Escaneie o QR Code com o app Expo Go no seu celular.
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+## 📖 Guia de Uso
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+1.  **Login:** O app inicia na tela de Login.
+2.  **Autorização:**
+    * **Professores:** Podem ver todos os botões (Criar, Editar, Excluir, Gerenciar).
+         ***Login:*** 
+         ***Senha:***
+        
+    * **Alunos:** Apenas visualizam os posts.
+3.  **CRUDs:** O app implementa o CRUD completo para Posts, Professores e Estudantes.
